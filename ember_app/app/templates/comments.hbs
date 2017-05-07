@@ -1,0 +1,23 @@
+<div class='container'>
+
+<div class='form-group col-xs-6 col-md-6 ' >
+  {{textarea type="text" value=commentDescription placeholder="Type a comment" class='form-control' rows="4" cols="15"}}
+</div>
+<div class='form-group col-xs-12 col-md-12' >
+	<button class='btn-primary ' {{action "addComment" commentDescription}}>Add Comment</button>
+	<button class='btn-danger' {{action "reset" commentDescription }}>Reset Comment</button>
+</div>	
+
+  {{#each model as |data|}}
+  {{log data.text}}
+	<ul>	
+  		{{! This case for add child only parent is not null}}
+	  	{{#if data.parent_id}}
+	  	{{else}}
+	  		{{! Call component ,pass params |data| action = createChildren}}
+	  	  	<li>{{comments-list comment=data action="createChildren"}}</li>
+	  	{{/if}}
+	</ul>
+  {{/each}}
+</div>  
+  

@@ -1,0 +1,12 @@
+<div>
+{{comment.text}}
+</div><br>
+{{textarea cols="15" rows="4" type="text" value=comment.reply placeholder="Reply"}}<br>
+<button {{action 'createChildren' comment comment.reply}} >Reply</button>
+
+{{#each comment.childrens as |reply|}}
+	<ul>
+		{{! Call component ,pass params |reply| action = createChildren }}
+		<li>{{ comments-list comment=reply action="createChildren"}}</li>
+	</ul>
+{{/each}}
