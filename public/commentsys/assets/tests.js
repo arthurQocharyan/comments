@@ -27,6 +27,15 @@ define('ember-app/tests/components/comments-list.jshint', ['exports'], function 
     assert.ok(true, 'components/comments-list.js should pass jshint.');
   });
 });
+define('ember-app/tests/controllers/comments.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | controllers/comments.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'controllers/comments.js should pass jshint.\ncontrollers/comments.js: line 9, col 42, \'value\' is defined but never used.\n\n1 error');
+  });
+});
 define('ember-app/tests/helpers/destroy-app', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = destroyApp;
 
@@ -311,6 +320,15 @@ define('ember-app/tests/routes/index.jshint', ['exports'], function (exports) {
     assert.ok(true, 'routes/index.js should pass jshint.');
   });
 });
+define('ember-app/tests/serializers/application.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | serializers/application.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'serializers/application.js should pass jshint.');
+  });
+});
 define('ember-app/tests/test-helper', ['exports', 'ember-app/tests/helpers/resolver', 'ember-qunit'], function (exports, _emberAppTestsHelpersResolver, _emberQunit) {
 
   (0, _emberQunit.setResolver)(_emberAppTestsHelpersResolver['default']);
@@ -344,6 +362,28 @@ define('ember-app/tests/unit/adapters/comments-test.jshint', ['exports'], functi
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/adapters/comments-test.js should pass jshint.');
+  });
+});
+define('ember-app/tests/unit/controllers/comments-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('controller:comments', 'Unit | Controller | comments', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var controller = this.subject();
+    assert.ok(controller);
+  });
+});
+define('ember-app/tests/unit/controllers/comments-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/controllers/comments-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/controllers/comments-test.js should pass jshint.');
   });
 });
 define('ember-app/tests/unit/models/comment-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -408,6 +448,31 @@ define('ember-app/tests/unit/routes/index-test.jshint', ['exports'], function (e
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/routes/index-test.js should pass jshint.');
+  });
+});
+define('ember-app/tests/unit/serializers/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('application', 'Unit | Serializer | application', {
+    // Specify the other units that are required for this test.
+    needs: ['serializer:application']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it serializes records', function (assert) {
+    var record = this.subject();
+
+    var serializedRecord = record.serialize();
+
+    assert.ok(serializedRecord);
+  });
+});
+define('ember-app/tests/unit/serializers/application-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/serializers/application-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/serializers/application-test.js should pass jshint.');
   });
 });
 /* jshint ignore:start */

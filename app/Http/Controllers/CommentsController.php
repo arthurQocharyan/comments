@@ -15,8 +15,9 @@ class CommentsController extends Controller
     public function index(Request $request){
         if($request->ajax())
         {
-    	    $response_data = $this->comment->where('parent_id', null)->with('childrens')->get();
-            return response()->json(['data' => $response_data]);
+            return $this->comment->where('parent_id', null)->with('commReply')->get();
+    	    $data = $this->comment->where('parent_id', null)->with('commReply')->get();
+            return response()->json(['data' => $data]);
         }
         return redirect('/');    
     }
@@ -24,10 +25,10 @@ class CommentsController extends Controller
     public function addComent(Request $request){
         $inputs = $request->all()['comment'];
         $comment = [
-            'description' => $inputs['description'],
+            'text' => $inputs['text'],
             'parent_id' => isset($inputs['child']) ? $inputs['child'] : null
         ];
-        $response_data = $this->comment->create($comment);
-    	return response()->json(['comment' => $response_data]);
+        $data = $this->comment->create($comment);
+    	return response()->json(['comment' => $data]);
     }
 }

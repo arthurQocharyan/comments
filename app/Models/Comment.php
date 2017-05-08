@@ -11,10 +11,10 @@ class Comment extends Model
     ];
     public function comments()
     {
-        return $this->hasMany(__Class__, "parent_id");
+        return $this->hasMany($this, "parent_id");
     }
-    public function childrens()
+    public function commReply()
     {
-        return $this->comments()->with('childrens');
+        return $this->comments()->with('commReply');
     }
 }

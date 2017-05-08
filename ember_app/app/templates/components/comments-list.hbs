@@ -1,12 +1,18 @@
-<div>
-{{comment.text}}
-</div><br>
-{{textarea cols="15" rows="4" type="text" value=comment.reply placeholder="Reply"}}<br>
-<button {{action 'createChildren' comment comment.reply}} >Reply</button>
+{{yield}}
+<div class='container'>
+    <div class='form-group col-xs-6 col-md-6 '>
+        <h3>Comment : <strong>{{comment.text}}</strong></h3>
+        <form>
+            {{textarea placeholder="..." class='form-control' rows="2" cols="8" type="text" value=comment.reply placeholder="Reply"}}<br>
+            <button class="btn-success" {{action 'addReply' comment comment.reply}} >Reply</button>
+            <button type="reset" class='btn-danger'>Reset Reply</button>
+        </form>
 
-{{#each comment.childrens as |reply|}}
-	<ul>
-		{{! Call component ,pass params |reply| action = createChildren }}
-		<li>{{ comments-list comment=reply action="createChildren"}}</li>
-	</ul>
-{{/each}}
+        {{#each comment.comm_reply as |reply|}}
+
+            <ul>
+               <li>{{ comments-list comment=reply action="addReply"}}</li>
+            </ul>
+        {{/each}}
+    </div>
+</div>
