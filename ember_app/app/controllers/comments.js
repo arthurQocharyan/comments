@@ -11,8 +11,15 @@ export default Ember.Controller.extend({
 
             });
         },
-        addReply(){
-            console.log('aaa');
+        addReply(model,reply){
+            let comment = this.get('store').createRecord('comment', {
+                text: reply,
+
+            });
+            model.get('comm_reply').then(function(child){
+                child.pushObject(comment);
+            });
+            comment.save();
         }
 
     }

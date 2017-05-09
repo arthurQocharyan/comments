@@ -11,12 +11,10 @@
     </form>
 
   {{#each model as |data|}}
-    <ul>
-        {{#if data.parent_id}}
-        {{else}}
-	  		{{comments-list comment=data}}
-	  	{{/if}}
-	</ul>
+    {{#if data.parent_id}}
+    {{else}}
+        {{comments-list comment=data}}
+    {{/if}}
   {{/each}}
 </div>  
   
