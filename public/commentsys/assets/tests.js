@@ -33,7 +33,7 @@ define('ember-app/tests/controllers/comments.jshint', ['exports'], function (exp
   QUnit.module('JSHint | controllers/comments.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'controllers/comments.js should pass jshint.\ncontrollers/comments.js: line 9, col 42, \'value\' is defined but never used.\n\n1 error');
+    assert.ok(false, 'controllers/comments.js should pass jshint.\ncontrollers/comments.js: line 9, col 27, Missing semicolon.\n\n1 error');
   });
 });
 define('ember-app/tests/helpers/destroy-app', ['exports', 'ember'], function (exports, _ember) {

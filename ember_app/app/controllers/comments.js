@@ -6,10 +6,8 @@ export default Ember.Controller.extend({
             let comment = this.store.createRecord('comment', {
                 text : commentText,
             });
-            comment.save().then(function(value){
-
-
-            });
+            comment.save()
+            this.set('commentText', '');
         },
         addReply(model,reply){
             let comment = this.get('store').createRecord('comment', {
@@ -17,6 +15,7 @@ export default Ember.Controller.extend({
 
             });
             model.get('comm_reply').then(function(child){
+
                 child.pushObject(comment);
             });
             comment.save();

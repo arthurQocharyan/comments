@@ -2,9 +2,10 @@
 <div class='container'>
     <div class='form-group col-xs-6 col-md-6 '>
         <h3>Comment : <strong>{{comment.text}}</strong></h3>
+        <h6>Date : <strong>{{comment.created_at}}</strong></h6>
         <form>
-            {{textarea placeholder="..." class='form-control' rows="2" cols="8" type="text" value=comment.reply placeholder="Reply"}}<br>
-            <button class="btn-success" {{action 'addReply' comment comment.reply}} >Reply</button>
+            {{textarea placeholder="..." class='form-control' rows="2" cols="8" type="text" value=reply placeholder="Reply"}}<br>
+            <button class="btn-success" {{action 'addReply' comment reply}} >Reply</button>
             <button type="reset" class='btn-danger'>Reset Reply</button>
         </form>
 

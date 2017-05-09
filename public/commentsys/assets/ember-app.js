@@ -44,6 +44,7 @@ define("ember-app/components/comments-list", ["exports", "ember"], function (exp
         actions: {
             addReply: function addReply(model, reply) {
                 this.sendAction("addReply", model, reply);
+                this.set('reply', '');
             }
         }
     });
@@ -55,7 +56,8 @@ define('ember-app/controllers/comments', ['exports', 'ember'], function (exports
                 var comment = this.store.createRecord('comment', {
                     text: commentText
                 });
-                comment.save().then(function (value) {});
+                comment.save();
+                this.set('commentText', '');
             },
             addReply: function addReply(model, reply) {
                 var comment = this.get('store').createRecord('comment', {
@@ -63,6 +65,7 @@ define('ember-app/controllers/comments', ['exports', 'ember'], function (exports
 
                 });
                 model.get('comm_reply').then(function (child) {
+
                     child.pushObject(comment);
                 });
                 comment.save();
@@ -247,13 +250,14 @@ define("ember-app/instance-initializers/ember-data", ["exports", "ember-data/-pr
   };
 });
 define('ember-app/models/comment', ['exports', 'ember-data'], function (exports, _emberData) {
-  exports['default'] = _emberData['default'].Model.extend({
-    text: _emberData['default'].attr('string'),
-    parent_id: _emberData['default'].attr('number'),
-    comm_reply: _emberData['default'].hasMany('comment', { inverse: 'parent' }),
-    parent: _emberData['default'].belongsTo('comment', { inverse: 'comm_reply' })
+   exports['default'] = _emberData['default'].Model.extend({
+      text: _emberData['default'].attr('string'),
+      parent_id: _emberData['default'].attr('number'),
+      created_at: _emberData['default'].attr('date'),
+      comm_reply: _emberData['default'].hasMany('comment', { inverse: 'parent' }),
+      parent: _emberData['default'].belongsTo('comment', { inverse: 'comm_reply' })
 
-  });
+   });
 });
 define('ember-app/resolver', ['exports', 'ember-resolver'], function (exports, _emberResolver) {
   exports['default'] = _emberResolver['default'];
@@ -275,6 +279,7 @@ define('ember-app/routes/comments', ['exports', 'ember'], function (exports, _em
   exports['default'] = _ember['default'].Route.extend({
     model: function model() {
       // return Ember.$.getJSON("/comments");
+      //return this.get('store').query('comment', {});
       return this.get('store').findAll('comment');
     }
   });
@@ -288,7 +293,10 @@ define('ember-app/routes/index', ['exports', 'ember'], function (exports, _ember
   });
 });
 define('ember-app/serializers/application', ['exports', 'ember-data'], function (exports, _emberData) {
-  exports['default'] = _emberData['default'].RESTSerializer.extend();
+    exports['default'] = _emberData['default'].RESTSerializer.extend(_emberData['default'].EmbeddedRecordsMixin, { attrs: {
+            comm_reply: { embedded: 'always' }
+        }
+    });
 });
 define('ember-app/services/ajax', ['exports', 'ember-ajax/services/ajax'], function (exports, _emberAjaxServicesAjax) {
   Object.defineProperty(exports, 'default', {
@@ -551,11 +559,11 @@ define("ember-app/templates/components/comments-list", ["exports"], function (ex
           "loc": {
             "source": null,
             "start": {
-              "line": 11,
+              "line": 12,
               "column": 8
             },
             "end": {
-              "line": 16,
+              "line": 17,
               "column": 8
             }
           },
@@ -588,7 +596,7 @@ define("ember-app/templates/components/comments-list", ["exports"], function (ex
           morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
           return morphs;
         },
-        statements: [["inline", "comments-list", [], ["comment", ["subexpr", "@mut", [["get", "reply", ["loc", [null, [14, 44], [14, 49]]], 0, 0, 0, 0]], [], [], 0, 0], "action", "addReply"], ["loc", [null, [14, 19], [14, 69]]], 0, 0]],
+        statements: [["inline", "comments-list", [], ["comment", ["subexpr", "@mut", [["get", "reply", ["loc", [null, [15, 44], [15, 49]]], 0, 0, 0, 0]], [], [], 0, 0], "action", "addReply"], ["loc", [null, [15, 19], [15, 69]]], 0, 0]],
         locals: ["reply"],
         templates: []
       };
@@ -603,7 +611,7 @@ define("ember-app/templates/components/comments-list", ["exports"], function (ex
             "column": 0
           },
           "end": {
-            "line": 18,
+            "line": 19,
             "column": 6
           }
         },
@@ -629,6 +637,16 @@ define("ember-app/templates/components/comments-list", ["exports"], function (ex
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("h3");
         var el4 = dom.createTextNode("Comment : ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("strong");
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h6");
+        var el4 = dom.createTextNode("Date : ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("strong");
         var el5 = dom.createComment("");
@@ -676,18 +694,19 @@ define("ember-app/templates/components/comments-list", ["exports"], function (ex
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [2, 1]);
-        var element1 = dom.childAt(element0, [3]);
+        var element1 = dom.childAt(element0, [5]);
         var element2 = dom.childAt(element1, [4]);
-        var morphs = new Array(5);
+        var morphs = new Array(6);
         morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
         morphs[1] = dom.createMorphAt(dom.childAt(element0, [1, 1]), 0, 0);
-        morphs[2] = dom.createMorphAt(element1, 1, 1);
-        morphs[3] = dom.createElementMorph(element2);
-        morphs[4] = dom.createMorphAt(element0, 5, 5);
+        morphs[2] = dom.createMorphAt(dom.childAt(element0, [3, 1]), 0, 0);
+        morphs[3] = dom.createMorphAt(element1, 1, 1);
+        morphs[4] = dom.createElementMorph(element2);
+        morphs[5] = dom.createMorphAt(element0, 7, 7);
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["content", "yield", ["loc", [null, [1, 0], [1, 9]]], 0, 0, 0, 0], ["content", "comment.text", ["loc", [null, [4, 30], [4, 46]]], 0, 0, 0, 0], ["inline", "textarea", [], ["placeholder", "...", "class", "form-control", "rows", "2", "cols", "8", "type", "text", "value", ["subexpr", "@mut", [["get", "comment.reply", ["loc", [null, [6, 98], [6, 111]]], 0, 0, 0, 0]], [], [], 0, 0], "placeholder", "Reply"], ["loc", [null, [6, 12], [6, 133]]], 0, 0], ["element", "action", ["addReply", ["get", "comment", ["loc", [null, [7, 60], [7, 67]]], 0, 0, 0, 0], ["get", "comment.reply", ["loc", [null, [7, 68], [7, 81]]], 0, 0, 0, 0]], [], ["loc", [null, [7, 40], [7, 83]]], 0, 0], ["block", "each", [["get", "comment.comm_reply", ["loc", [null, [11, 16], [11, 34]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [11, 8], [16, 17]]]]],
+      statements: [["content", "yield", ["loc", [null, [1, 0], [1, 9]]], 0, 0, 0, 0], ["content", "comment.text", ["loc", [null, [4, 30], [4, 46]]], 0, 0, 0, 0], ["content", "comment.created_at", ["loc", [null, [5, 27], [5, 49]]], 0, 0, 0, 0], ["inline", "textarea", [], ["placeholder", "...", "class", "form-control", "rows", "2", "cols", "8", "type", "text", "value", ["subexpr", "@mut", [["get", "reply", ["loc", [null, [7, 98], [7, 103]]], 0, 0, 0, 0]], [], [], 0, 0], "placeholder", "Reply"], ["loc", [null, [7, 12], [7, 125]]], 0, 0], ["element", "action", ["addReply", ["get", "comment", ["loc", [null, [8, 60], [8, 67]]], 0, 0, 0, 0], ["get", "reply", ["loc", [null, [8, 68], [8, 73]]], 0, 0, 0, 0]], [], ["loc", [null, [8, 40], [8, 75]]], 0, 0], ["block", "each", [["get", "comment.comm_reply", ["loc", [null, [12, 16], [12, 34]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [12, 8], [17, 17]]]]],
       locals: [],
       templates: [child0]
     };
@@ -776,7 +795,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+da49f8fc"});
+  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+e70b0b2f"});
 }
 
 /* jshint ignore:end */

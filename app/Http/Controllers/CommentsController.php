@@ -15,29 +15,10 @@ class CommentsController extends Controller
     public function index(Request $request){
         if($request->ajax())
         {
-            return $this->comment->where('parent_id', null)->with('commReply')->orderBy('id','DESC')->get();
-    	    $data = $this->comment->where('parent_id', null)->with('commReply')->get();
-            return response()->json(['data' => $data]);
-            try{
-                $response = [
-                    'comments' => []
-                ];
-                $statusCode = 200;
-                $comments = $this->comment->where('parent_id', null)->with('commReply')->orderBy('id','DESC')->get();
-                foreach($comments as $comment){
-                    $response['comments'][] = [
-                        'id' => $comment->id,
-                        'text' => $comment->text,
-                        'parent_id' => $comment->parent_id,
-                        'commReply'=>$comment->commReply
+            //return $this->comment->where('parent_id', null)->with('commReply')->orderBy('id','DESC')->get();
+    	    $data = $this->comment->where('parent_id', null)->with('commReply')->orderBy('id','DESC')->get();
+            return response()->json(['comments' => $data]);
 
-                    ];
-                }
-            }catch (Exception $e){
-                $statusCode = 404;
-            }finally{
-                return \Response::json($response, $statusCode);
-            }
         }
         return redirect('/');    
     }

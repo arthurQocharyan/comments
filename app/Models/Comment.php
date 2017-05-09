@@ -15,6 +15,6 @@ class Comment extends Model
     }
     public function commReply()
     {
-        return $this->comments()->with('commReply');
+        return $this->comments()->with('commReply')->orderBy('id','DESC');
     }
 }

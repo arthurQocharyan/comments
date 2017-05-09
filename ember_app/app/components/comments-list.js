@@ -5,6 +5,7 @@ export default Ember.Component.extend({
     actions: {
         addReply: function(model, reply){
             this.sendAction("addReply", model, reply);
+            this.set('reply', '');
         }
     }
 });
